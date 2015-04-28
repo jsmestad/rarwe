@@ -1,11 +1,5 @@
 import Ember from 'ember';
 
-var Song = Ember.Object.extend({
-  title: '',
-  rating: 0,
-  band: ''
-});
-
 var blackDog = Song.create({
   title: 'Black Dog',
   band: 'Led Zeppelin',
@@ -28,19 +22,6 @@ var pretender = Song.create({
   title: 'The Pretender',
   band: 'Foo Fighters',
   rating: 2
-});
-
-var Band = Ember.Object.extend({
-  name: '',
-
-  slug: function() {
-    return this.get('name').dasherize();
-  }.property('name'),
-
-  songs: function() {
-    return songs.filterBy('band', this.get('name'));
-  }.property('name', 'songs.@each.band')
-
 });
 
 var BandsCollection = Ember.ArrayProxy.extend(Ember.SortableMixin, {

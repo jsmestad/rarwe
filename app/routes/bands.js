@@ -1,4 +1,6 @@
 import Ember from 'ember';
+import Band from '../models/band';
+import Song from '../models/song';
 
 var blackDog = Song.create({
   title: 'Black Dog',
@@ -41,5 +43,14 @@ bands.pushObjects([ledZeppelin, pearlJam, fooFighters]);
 export default Ember.Route.extend({
   model: function() {
     return bands;
+  },
+
+  actions: {
+    createBand: function() {
+      var name = this.get('controller').get('name');
+      var band = Band.create({name: name});
+      bands.pushObject(band);
+      this.get('controller').set('name', '');
+    }
   }
 });

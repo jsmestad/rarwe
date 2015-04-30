@@ -11,11 +11,7 @@ export default Ember.Object.extend({
 
   slug: function() {
     return this.get('name').dasherize();
-  }.property('name'),
-
-  songs: function() {
-    return songs.filterBy('band', this.get('name'));
-  }.property('name', 'songs.@each.band')
+  }.property('name')
 
 });
 

@@ -14,3 +14,14 @@
 .new-song-button {
   margin-left: 20px;
 }
+
+.rating-panel {
+  display: inline-block;
+  float: right;
+}
+
+.rating-star {
+  display: inline;
+  float: left;
+  margin-left: 3px;
+}

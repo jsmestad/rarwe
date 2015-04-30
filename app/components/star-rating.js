@@ -9,6 +9,15 @@ export default Ember.Component.extend({
   item: null,
   setAction: '',
 
+  actions: {
+    set: function(newRating) {
+      this.sendAction('setAction', {
+        item: this.get('item'),
+        rating: newRating
+      });
+    }
+  },
+
   starRange: function(start, end, type) {
     var starsData = [];
     for (var i = start; i <= end; i++) {

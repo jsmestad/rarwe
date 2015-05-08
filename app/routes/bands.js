@@ -1,48 +1,8 @@
 import Ember from 'ember';
-import Band from '../models/band';
-import Song from '../models/song';
-
-var blackDog = Song.create({
-  title: 'Black Dog',
-  band: 'Led Zeppelin',
-  rating: 3
-});
-
-var ledbetter = Song.create({
-  title: 'Yellow Ledbetter',
-  band: 'Pearl Jam',
-  rating: 4
-});
-
-var daughter = Song.create({
-  title: 'Daughter',
-  band: 'Pearl Jam',
-  rating: 5
-});
-
-var pretender = Song.create({
-  title: 'The Pretender',
-  band: 'Foo Fighters',
-  rating: 2
-});
-
-var BandsCollection = Ember.ArrayProxy.extend(Ember.SortableMixin, {
-  sortProperties: ['name'],
-  sortAscending: false,
-  content: []
-});
-
-var bands = BandsCollection.create();
-
-var ledZeppelin = Band.create({name: 'Led Zepplin', songs: [blackDog]});
-var pearlJam = Band.create({name: 'Pearl Jam', description: 'Pearl Jam is an American rock band, formed in Seattle, Washington in 1990.', songs: [daughter, ledbetter]});
-var fooFighters = Band.create({name: 'Foo Fighters', songs: [pretender]});
-
-bands.pushObjects([ledZeppelin, pearlJam, fooFighters]);
 
 export default Ember.Route.extend({
   model: function() {
-    return bands;
+    return this.store.find('band');
   },
 
   actions: {
@@ -50,11 +10,16 @@ export default Ember.Route.extend({
       Ember.$(document).attr('title', 'Bands - Rock & Roll');
     },
     createBand: function() {
-      var name = this.get('controller').get('name');
-      var band = Band.create({name: name});
-      bands.pushObject(band);
-      this.get('controller').set('name', '');
-      this.transitionTo('band.songs', band);
+      var route = this,
+        controller = this.get('controller');
+
+      var band = this.store.createRecord('band',
+                                         controller.getProperties('name'));
+
+      band.save().then(function() {
+        controller.set('name', '');
+        route.transitionTo('band.songs', band);
+      });
     }
   }
 });

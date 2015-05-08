@@ -1,18 +1,20 @@
-import Ember from 'ember';
+// import Ember from 'ember';
+import DS from 'ember-data';
 
-export default Ember.Object.extend({
-  name: '',
-  description: '',
+export default DS.Model.extend({
+  name: DS.attr('string'),
+  description: DS.attr(),
+  songs: DS.hasMany('song'),
 
-  setupSongs: function() {
-    if (!this.get('songs')) {
-      this.set('songs', []);
-    }
-  }.on('init'),
+  // setupSongs: function() {
+    // if (!this.get('songs')) {
+      // this.set('songs', []);
+    // }
+  // }.on('init'),
 
-  slug: function() {
-    return this.get('name').dasherize();
-  }.property('name')
+  // slug: function() {
+    // return this.get('name').dasherize();
+  // }.property('name')
 
 });
 

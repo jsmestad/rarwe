@@ -1,10 +1,13 @@
 import Ember from 'ember';
+import { capitalizeWords } from '../../helpers/capitalize-words';
 
 export default Ember.Controller.extend({
+  needs: ['band'],
   queryParams: {
     sortBy: 'sort',
     searchTerm: 's'
   },
+  searchTerm: '',
 
   title: '',
   songCreationStarted: false,
@@ -21,7 +24,11 @@ export default Ember.Controller.extend({
   }.property('sortBy'),
   sortedSongs: Ember.computed.sort('matchingSongs', 'sortProperties'),
 
-  searchTerm: '',
+  newSongPlaceholder: function() {
+    var band = this.get('controllers.band.model');
+    return "New %@ song".fmt(capitalizeWords(band.get('name')));
+  }.property('controllers.band.model.name'),
+
   matchingSongs: function() {
     var searchTerm = this.get('searchTerm').toLowerCase();
     return this.get('model').filter(function(song) {

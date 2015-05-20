@@ -1,8 +1,19 @@
 import Ember from 'ember';
 
+function wait(promise, delay) {
+  return new Ember.RSVP.Promise(function(resolve) {
+    setTimeout(function() {
+      promise.then(function(result) {
+        resolve(result);
+      });
+    }, delay);
+  });
+}
+
 export default Ember.Route.extend({
   model: function() {
-    return this.store.find('band');
+    var bands = this.store.find('band');
+    return wait(bands, 3 * 1000);
   },
 
   actions: {

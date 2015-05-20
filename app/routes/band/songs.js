@@ -1,9 +1,19 @@
 import Ember from 'ember';
-// import Song from '../../models/song';
+
+function wait(promise, delay) {
+  return new Ember.RSVP.Promise(function(resolve) {
+    setTimeout(function() {
+      promise.then(function(result) {
+        resolve(result);
+      });
+    }, delay);
+  });
+}
 
 export default Ember.Route.extend({
   model: function() {
-    return this.modelFor('band').get('songs');
+    var songs = Ember.RSVP.resolve(this.modelFor('band').get('songs'));
+    return wait(songs, 3000);
   },
 
   actions: {
